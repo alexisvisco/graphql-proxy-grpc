@@ -54,6 +54,7 @@ input CallSuperHeroInput @goModel(model: "github.com/alexisvisco/graphql-proxy-g
     hero: Heroes
     where: CallSuperHeroLocationInput
     city: CallSuperHeroRequestCity
+    customPower: [KeyValueCallSuperHeroCustomPowerInput] @goField(forceResolver: true)
 }
 
 input CallSuperHeroLocationInput @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes.CallSuperHeroRequest_Location") {
@@ -65,6 +66,7 @@ type CallSuperHeroRequest @goModel(model: "github.com/alexisvisco/graphql-proxy-
     hero: Heroes
     where: CallSuperHeroRequestLocation
     city: CallSuperHeroRequestCity
+    customPower: [KeyValueCallSuperHeroRequestCustomPower] @goField(forceResolver: true)
 }
 
 type CallSuperHeroRequestLocation @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes.CallSuperHeroRequest_Location") {
@@ -74,6 +76,16 @@ type CallSuperHeroRequestLocation @goModel(model: "github.com/alexisvisco/graphq
 
 type CallSuperHeroResponse @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes.CallSuperHeroResponse") {
     isAvailable: Boolean
+}
+
+type KeyValueCallSuperHeroCustomPowerInput @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes.KeyValueCallSuperHeroRequestCustomPower") {
+    Key: String
+    Value: Bytes
+}
+
+type KeyValueCallSuperHeroRequestCustomPower @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes.KeyValueCallSuperHeroRequestCustomPower") {
+    Key: String
+    Value: Bytes
 }
 
 

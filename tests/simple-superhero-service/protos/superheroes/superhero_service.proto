@@ -29,6 +29,8 @@ message CallSuperHeroRequest {
     }
 
     City city = 3;
+
+    map<string, bytes> customPower = 4;
 }
 
 message CallSuperHeroResponse {
