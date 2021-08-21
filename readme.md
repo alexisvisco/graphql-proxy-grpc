@@ -1,10 +1,11 @@
 
 # Graphql proxy grpc
 
-You have a gRPC API and you want a public unified graphql API.
-This project aim to cresate a graphql proxy using **code generation** thanks to [gqlgen](https://gqlgen.com/) automatically.
+The graphql-proxy-grpc is a protoc plugin abd a CLI. It reads protobuf service definitions and generates a reverse-proxy 
+server which translates a Graphql API into gRPC. The graphql server is generated using [gqlgen](https://gqlgen.com/).
 
-There is two binaries, one protoc plugin that generate the graphql schema based on your proto specification and one binary that generate go resolvers based on the previous generated schema.
+There is two binaries, one protoc plugin that generate the graphql schema based on your proto specification and one 
+binary that generate go resolvers based on the previous generated schema.
 
 
 ## Features
