@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package graphqlpb.v1;
+
+option go_package = "go.buf.build/library/go/alexisvisco/graphql-proxy-grpc/graphqlpb/v1;graphqlpbv1";
+
+import "google/protobuf/descriptor.proto";
+
+
+enum GraphqlType {
+  GRAPHQL_TYPE_QUERY = 0;
+  GRAPHQL_TYPE_MUTATION = 1;
+}
+extend google.protobuf.MethodOptions {
+  GraphqlType type = 7890;
+}

@@ -1,0 +1,15 @@
+version: v1beta1
+name: buf.build/alexisvisco/graphql-proxy-grpc
+deps:
+  - buf.build/beta/googleapis
+build:
+  roots:
+    - protos
+lint:
+  enum_zero_value_suffix: UNSPECIFIED
+  use:
+    - DEFAULT
+  except:
+    - RPC_REQUEST_RESPONSE_UNIQUE
+    - ENUM_NO_ALLOW_ALIAS
+    - ENUM_ZERO_VALUE_SUFFIX

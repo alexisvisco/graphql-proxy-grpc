@@ -1,0 +1,8 @@
+{{- /*gotype: github.com/alexisvisco/grpc2graphql/internal/gengql/pluginresolvers.ServiceResolverImplementation*/ -}}
+
+{{if .IsEmptyOutput}}_{{else}}response{{end}}, err := r.{{.ServiceName}}.{{.ServiceMethodName}}(ctx, {{if .IsEmptyInput}}&{{.EmptyMessagePkg}}.{{.EmptyMessageName}}{}{{else}}in{{end}})
+if err != nil {
+    return nil, err
+}
+
+return {{if .IsEmptyOutput}}&models.Void{}{{else}}response{{end}}, nil

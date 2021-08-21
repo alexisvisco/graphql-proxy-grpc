@@ -1,0 +1,8 @@
+{{- /*gotype: github.com/alexisvisco/grpc2graphql/internal/gengql/pluginresolvers.FieldResolverImplementation*/ -}}
+var kv []*{{.PkgName}}.{{.KeyValueTypeName}}
+
+for k, v := range obj.{{.FieldName}} {
+    kv = append(kv, &{{.PkgName}}.{{.KeyValueTypeName}}{Key: k, Value: v})
+}
+
+return kv, nil

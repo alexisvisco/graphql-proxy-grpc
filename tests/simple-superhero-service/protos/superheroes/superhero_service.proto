@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package protos.superheroes;
+
+option go_package = "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes";
+
+import "graphqlpb/v1/graphql.proto";
+
+enum Heroes {
+    HEROES_BATMAN = 0;
+    HEROES_SUPERMAN = 1;
+    HEROES_IRONMAN = 2;
+    HEROES_THOR = 3;
+}
+
+message CallSuperHeroRequest {
+    Heroes hero = 1;
+
+    message Location {
+      float lon = 1;
+      double lat = 2;
+    }
+
+    Location where = 2;
+
+    enum City {
+      CITY_NEW_YORK = 0;
+      CITY_PARIS = 1;
+    }
+
+    City city = 3;
+}
+
+message CallSuperHeroResponse {
+  bool is_available = 1;
+}
+
+
+service SuperHeroService {
+  rpc CallSuperHero(CallSuperHeroRequest) returns (CallSuperHeroResponse);
+  rpc NewSuperHero(CallSuperHeroRequest) returns (CallSuperHeroResponse) {
+    option (graphqlpb.v1.type) = GRAPHQL_TYPE_MUTATION;
+  };
+}

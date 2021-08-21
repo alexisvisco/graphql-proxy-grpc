@@ -1,0 +1,21 @@
+{{/*gotype: github.com/alexisvisco/grpc2graphql/internal/virtual.Enum */}}
+// UnmarshalGQL for {{.Name.Identifier.GoName}}
+func (x *{{.Name.Identifier.GoName}}) UnmarshalGQL(v interface{}) error {
+    str, ok := v.(string)
+    if !ok {
+        return fmt.Errorf("enums must be strings")
+    }
+
+    val, ok := {{.Name.Identifier.GoName}}_value[str]
+    if !ok {
+        return fmt.Errorf("%s is not a valid {{.Name.Identifier.GoName}}", str)
+    }
+
+    *x = {{.Name.Identifier.GoName}}(val)
+    return nil
+}
+
+// MarshalGQL for {{.Name.Identifier.GoName}}
+func (x {{.Name.Identifier.GoName}}) MarshalGQL(w io.Writer) {
+    fmt.Fprint(w, strconv.Quote(x.String()))
+}

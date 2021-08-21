@@ -1,0 +1,69 @@
+{{- /*gotype: github.com/alexisvisco/grpc2graphql/internal/templatedata.GraphQLSchemaData */ -}}
+
+directive @goModel(model: String, models: [String!]) on OBJECT
+| INPUT_OBJECT
+| SCALAR
+| ENUM
+| INTERFACE
+| UNION
+
+directive @goField(forceResolver: Boolean, name: String) on INPUT_FIELD_DEFINITION
+| FIELD_DEFINITION
+
+scalar Int64
+scalar Int32
+scalar Uint32
+scalar Float32
+
+"""
+Represented as a string because the max number can't be in a javascript number
+18446744073709551615 => "18446744073709551615"
+"""
+scalar Uint64
+
+"""
+Bytes are base64 encoded
+"""
+scalar Bytes
+
+scalar Any
+
+type Void @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/types.Void") {
+    void: Any
+}
+
+# Mutations & Queries
+{{if .HasMutations -}}
+type Mutation {
+    {{range $i, $mut := .Mutations -}}
+    {{$.FullGraphqlMethodName $mut}}{{if notlast $i $.Mutations}}
+    {{else}}{{end}}{{end}}
+}
+{{- end}}
+{{if .HasQueries -}}
+
+type Query {
+    {{range $i, $q := .Queries -}}
+    {{$.FullGraphqlMethodName $q}}{{if notlast $i $.Queries}}
+    {{else}}{{end}}{{end}}
+}
+{{- end}}
+
+{{ range $enum := .Enums -}}
+enum {{$enum.Name.GqlName}} @goModel(model: "{{$enum.Name.ImportPath }}.{{$enum.Name.Identifier.GoName}}") {
+    {{range  $i, $name := $enum.Values -}}
+    {{$name}}{{if notlast $i $enum.Values}}
+    {{else}}{{end}}{{end}}
+}
+
+{{end -}}
+
+{{ range $msg := .Messages -}}
+{{if $msg.IsInput}}input{{else}}type{{end}} {{$msg.Name.GqlName}} @goModel(model: "{{$msg.Name.ImportPath}}.{{$msg.Name.Identifier.GoName}}") {
+    {{range $i, $field := $msg.Fields -}}
+    {{$.FullGraphqlFieldName $msg.IsInput $field}}{{if notlast $i $msg.Fields}}
+    {{else}}{{end}}{{end}}
+}
+
+{{end -}}
+

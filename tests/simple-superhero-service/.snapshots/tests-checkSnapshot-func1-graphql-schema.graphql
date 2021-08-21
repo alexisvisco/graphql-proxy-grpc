@@ -1,0 +1,79 @@
+directive @goModel(model: String, models: [String!]) on OBJECT
+| INPUT_OBJECT
+| SCALAR
+| ENUM
+| INTERFACE
+| UNION
+
+directive @goField(forceResolver: Boolean, name: String) on INPUT_FIELD_DEFINITION
+| FIELD_DEFINITION
+
+scalar Int64
+scalar Int32
+scalar Uint32
+scalar Float32
+
+"""
+Represented as a string because the max number can't be in a javascript number
+18446744073709551615 => "18446744073709551615"
+"""
+scalar Uint64
+
+"""
+Bytes are base64 encoded
+"""
+scalar Bytes
+
+scalar Any
+
+type Void @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/types.Void") {
+    void: Any
+}
+
+# Mutations & Queries
+type Mutation {
+    superHeroServiceNewSuperHero(in: CallSuperHeroInput): CallSuperHeroResponse
+}
+type Query {
+    superHeroServiceCallSuperHero(in: CallSuperHeroInput): CallSuperHeroResponse
+}
+
+enum CallSuperHeroRequestCity @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes.CallSuperHeroRequest_City") {
+    CITY_NEW_YORK
+    CITY_PARIS
+}
+
+enum Heroes @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes.Heroes") {
+    HEROES_BATMAN
+    HEROES_SUPERMAN
+    HEROES_IRONMAN
+    HEROES_THOR
+}
+
+input CallSuperHeroInput @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes.CallSuperHeroRequest") {
+    hero: Heroes
+    where: CallSuperHeroLocationInput
+    city: CallSuperHeroRequestCity
+}
+
+input CallSuperHeroLocationInput @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes.CallSuperHeroRequest_Location") {
+    lon: Float32
+    lat: Float
+}
+
+type CallSuperHeroRequest @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes.CallSuperHeroRequest") {
+    hero: Heroes
+    where: CallSuperHeroRequestLocation
+    city: CallSuperHeroRequestCity
+}
+
+type CallSuperHeroRequestLocation @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes.CallSuperHeroRequest_Location") {
+    lon: Float32
+    lat: Float
+}
+
+type CallSuperHeroResponse @goModel(model: "github.com/alexisvisco/graphql-proxy-grpc/tests/simple-superhero-service/gen/go/protos/superheroes.CallSuperHeroResponse") {
+    isAvailable: Boolean
+}
+
+

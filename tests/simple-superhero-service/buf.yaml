@@ -1,0 +1,14 @@
+version: v1beta1
+name: buf.build/alexisvisco/graphql-proxy-grpc
+deps:
+  - buf.build/beta/googleapis
+  - buf.build/alexisvisco/graphql-proxy-grpc
+build:
+  roots:
+    - .
+lint:
+  enum_zero_value_suffix: UNSPECIFIED
+  use:
+    - DEFAULT
+  except:
+    - PACKAGE_VERSION_SUFFIX
